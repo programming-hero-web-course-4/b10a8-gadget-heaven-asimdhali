@@ -1,8 +1,13 @@
 import { useContext, useEffect, useState } from "react";
-
+import { CartContext, WishlistContext } from "../Root/Root";
+import { BiSortAlt2 } from "react-icons/bi";
+import { IoMdClose } from "react-icons/io";
+import { MdVerified } from "react-icons/md";
+import toast, { Toaster } from "react-hot-toast";
 
 const Dashboard = () => {
-  const [wishlist, setwishlist] = useState(false);
+  const [wishlist, setWishlist] = useState(false);
+  const [updateTotal, setUpdateTotal] = useState(0);
 
   const { cart, setCart } = useContext(CartContext);
   const { wCart, setWCart } = useContext(WishlistContext);
@@ -17,6 +22,10 @@ const Dashboard = () => {
     setTotal(totalPrice);
   }, [cart]);
 
+  const notify = (message) => {
+    toast(message);
+  };
+
   const purchageProducts = () => {
     notify("Products purchased successfully");
     setTotal(0);
@@ -30,10 +39,9 @@ const Dashboard = () => {
 
   const sortByPrice = () => {
     notify("Sorting by price");
-    setCart((prevCart) => {
-      const sortedCart = [...prevCart].sort((a, b) => b.price - a.price);
-      return sortedCart;
-    });
+    setCart((prevCart) =>
+      [...prevCart].sort((a, b) => b.price - a.price)
+    );
   };
 
   const removeFromCart = (index) => {
@@ -46,29 +54,26 @@ const Dashboard = () => {
     setCart((prevCart) => [...prevCart, item]);
   };
 
-  const [updateTotal, setUpdateTotal] = useState(0);
   return (
     <>
-      {/* Khella shuru  */}
-      <dialog id="my_modal_2" className="modal">
-        <div className="modal-box card ">
-          {console.log(total, "dd")}
+      {/* Purchase Modal */}
+      <dialog id="purchase_modal" className="modal">
+        <div className="modal-box card">
           <div className="card-body flex-col justify-center items-center">
-            <img src={verified} className="w-20" />
-            <hr style={{ color: "black" }} />
-            <p className="font-bold">Payment Successfully</p>
-            <p className="text-[##09080f99] text-[16px]">
-              Thank's for purchasing
-            </p>
-            <h3 className="font-bold text-lg">Total : {updateTotal}</h3>
+            <MdVerified className="text-green-500 text-4xl mb-4" />
+            <p className="font-bold">Payment Successful</p>
+            <p className="text-gray-600">Thanks for purchasing</p>
+            <h3 className="font-bold text-lg">Total: ${updateTotal}</h3>
             <p className="py-4">Click outside to close</p>
           </div>
         </div>
         <form method="dialog" className="modal-backdrop">
-          <button>close</button>
+          <button>Close</button>
         </form>
       </dialog>
-      <div className="p-5 text-white bg-[#9538E2] flex flex-col  pt-[50px] pb-[80px] relative items-center justify-center">
+
+      {/* Dashboard Header */}
+      <div className="p-5 text-white bg-[#9538E2] flex flex-col pt-[50px] pb-[80px] items-center justify-center">
         <h2 className="text-[32px] font-bold">Dashboard</h2>
         <p className="max-w-[796px] text-center text-[16px]">
           Explore the latest gadgets that will take your experience to the next
@@ -79,7 +84,7 @@ const Dashboard = () => {
             className={`btn mr-2 w-[170px] rounded-2xl ${
               wishlist ? "" : "bg-[#9538E2]"
             }`}
-            onClick={() => setwishlist(false)}
+            onClick={() => setWishlist(false)}
           >
             Cart
           </button>
@@ -87,13 +92,14 @@ const Dashboard = () => {
             className={`btn w-[170px] rounded-2xl ${
               wishlist ? "bg-[#9538E2] text-white" : ""
             }`}
-            onClick={() => setwishlist(true)}
+            onClick={() => setWishlist(true)}
           >
             Wishlist
           </button>
         </div>
       </div>
 
+      {/* Cart Section */}
       <div
         className={`${
           wishlist ? "hidden" : "flex flex-col items-center my-4 justify-center"
@@ -101,31 +107,22 @@ const Dashboard = () => {
       >
         <div className="container mx-auto my-2">
           <div className="flex flex-row justify-between items-center">
-            <div>
-              <h1>Cart</h1>
-            </div>
-            <div className="flex flex-row justify-end items-center">
-              <h2>Total Cost : {total}</h2>
+            <h1>Cart</h1>
+            <div className="flex flex-row items-center">
+              <h2>Total Cost: ${total}</h2>
               <button
-                className=" btn mx-1 border border-primary rounded-full flex items-center"
+                className="btn mx-1 border border-primary rounded-full flex items-center"
                 onClick={sortByPrice}
               >
-                Sort by price
-                <img
-                  className="w-[36px] h-[36px] rounded-full mx-2 flex items-center justify-center ml-1"
-                  src={tool}
-                />
+                Sort by price <BiSortAlt2 className="ml-2" />
               </button>
               <button
                 className={`${
                   cart.length === 0 ? "btn-disabled" : ""
                 } btn mx-1 bg-[#8332C5] text-white rounded-3xl`}
                 onClick={() => {
-                  console.log("Showing modal...");
-                  document.getElementById("my_modal_2").showModal();
-                  console.log("Calling purchaseProducts..."); // Debugging
-                  console.log(total);
                   setUpdateTotal(total);
+                  document.getElementById("purchase_modal").showModal();
                   purchageProducts();
                 }}
               >
@@ -134,61 +131,51 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        {/* cart items  */}
-        <div
-          className={`${
-            wishlist ? "hidden" : "flex flex-col items-center"
-          } w-full container mx-auto rounded-xl p-6`}
-        >
-          <div className="w-full ">
-            {cart.length === 0 ? (
-              <p className="text-center">Your cart is empty</p>
-            ) : (
-              cart.map((item, index) => (
-                <div
-                  key={index}
-                  className="card card-side bg-base-100 shadow-xl w-[1280px] relative container h-[188px] mx-auto rounded-xl p-6 mb-4"
-                >
-                  <figure>
-                    <img
-                      src={item.product_image}
-                      alt={item.product_title}
-                      className="w-[200px] h-[124px] rounded-md"
-                    />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title text-[24px]">
-                      {item.product_title}
-                    </h2>
-                    <p>
-                      <span className="font-bold">Description:</span>{" "}
-                      {item.description}
-                    </p>
-                    <p className="font-bold text-lg">Price: ${item.price}</p>
-                    <div className="card-actions justify-end">
-                      <button
-                        className="absolute top-2 right-0"
-                        onClick={() => removeFromCart(index)}
-                      >
-                        <img src={close} className="w-[24px]" />
-                      </button>
-                    </div>
-                  </div>
+
+        <div className="w-full container mx-auto rounded-xl p-6">
+          {cart.length === 0 ? (
+            <p className="text-center">Your cart is empty</p>
+          ) : (
+            cart.map((item, index) => (
+              <div
+                key={index}
+                className="card card-side bg-base-100 shadow-xl container h-[188px] mx-auto rounded-xl p-6 mb-4"
+              >
+                <figure>
+                  <img
+                    src={item.product_image}
+                    alt={item.product_title}
+                    className="w-[200px] h-[124px] rounded-md"
+                  />
+                </figure>
+                <div className="card-body">
+                  <h2 className="card-title">{item.product_title}</h2>
+                  <p>
+                    <span className="font-bold">Description:</span>{" "}
+                    {item.description}
+                  </p>
+                  <p className="font-bold">Price: ${item.price}</p>
+                  <button
+                    className="absolute top-2 right-2"
+                    onClick={() => removeFromCart(index)}
+                  >
+                    <IoMdClose className="text-red-500 text-xl" />
+                  </button>
                 </div>
-              ))
-            )}
-          </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
 
-      {/* Wishlist zone */}
+      {/* Wishlist Section */}
       <div
         className={`${
-          wishlist ? "flex flex-col  items-center" : "hidden"
+          wishlist ? "flex flex-col items-center" : "hidden"
         } bg-gray-100 p-6`}
       >
-        <h2 className="text-2xl font-bold mb-4">WishList</h2>
-        <div className="w-full container mx-auto ">
+        <h2 className="text-2xl font-bold mb-4">Wishlist</h2>
+        <div className="w-full container mx-auto">
           {wCart.length === 0 ? (
             <p className="text-center">Your wishlist is empty</p>
           ) : (
@@ -202,43 +189,41 @@ const Dashboard = () => {
                   alt={item.product_title}
                   className="w-24 h-24 object-cover rounded-lg mr-4"
                 />
-                <div className="flex flex-col flex-grow">
+                <div className="flex-grow">
                   <h3 className="text-xl font-semibold">
                     {item.product_title}
                   </h3>
-                  <p className="text-gray-600">
+                  <p>
                     <span className="font-bold">Description:</span>{" "}
                     {item.description}
                   </p>
-                  <p className="font-bold text-lg">Price: ${item.price}</p>
+                  <p className="font-bold">Price: ${item.price}</p>
                 </div>
                 <button
                   className={`${
-                    item.availability
-                      ? "bg-purple-500"
-                      : "btn-disabled bg-grey-300"
-                  } w-[169px] text-white px-4  rounded-full font-semibold ml-4 py-2`}
+                    item.availability ? "bg-purple-500" : "btn-disabled"
+                  } text-white px-4 rounded-full font-semibold ml-4 py-2`}
                   onClick={() => {
-                    addToCart(item);
-                    removeFromWishlist(index);
+                    if (item.availability) {
+                      addToCart(item);
+                      removeFromWishlist(index);
+                    }
                   }}
                 >
                   Add to Cart
                 </button>
-                {item.availability ? null : (
-                  <p className="text-red-500">Out of stock</p>
-                )}
                 <button
-                  className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+                  className="absolute top-2 right-2 text-red-500"
                   onClick={() => removeFromWishlist(index)}
                 >
-                  <img src={close} className="w-[36px]" />
+                  <IoMdClose className="text-xl" />
                 </button>
               </div>
             ))
           )}
         </div>
       </div>
+
       <Toaster position="top-right" reverseOrder={false} />
     </>
   );
