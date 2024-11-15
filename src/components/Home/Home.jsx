@@ -1,10 +1,31 @@
 import { useState } from "react";
 import gadgetsData from "../../../public/gadgetsData.json";
 import banner from "../../assets/banner.jpg";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
-  console.log(gadgetsData);
+  const [gadgets, setGadgets] = useState([]);
+  const navigate = useNavigate;
+  // console.log(gadgetsData);
+
+  const handleCategoryClick = (event, category) => {
+    event.preventDefault();
+    setSelectedCategory(category);
+    if (category === "All") {
+      setGadgets(gadgetsData);
+    } else {
+      const filteredGadgets = gadgetsData.filter(
+        (gadget) => gadget.category === category
+      );
+      setGadgets(
+        filteredGadgets.length > 0
+          ? filteredGadgets
+          : [{ product_id: 0, product_title: "No data found" }]
+      );
+    }
+  };
+
   return (
     <div className="container mx-auto">
       <div className="bg-[#9538E2]  mb-[330px] text-white flex flex-col justify-center items-center text-center py-4 h-[580px] rounded-b-[32px] relative">
@@ -42,10 +63,34 @@ const Home = () => {
               "Power Banks",
             ].map((category) => (
               <li>
-                <button className={`btn w-[192px] ${selectedCategory === category ? "btn-active" : ""}`} >{category}</button>
+                <button className={`btn w-[192px] ${selectedCategory === category ? "btn-active" : ""}`} onClick={(event) => handleCategoryClick(event, category)}>{category}</button>
               </li>
             ))}
           </ul>
+        </div>
+
+        <div className="w-3/4">
+            <h2 className="text-center text-[40px] font-bold text-[#0B0B0B] mb-4">
+              Explore Cutting-Edge Gadgets
+            </h2>
+            <div className="grid grid-cols-3 gap-4">
+              {gadgets.map((gadget) => {
+                <div key={gadget.product_id} className="card card-bordered p-4">
+                  {gadget.product_id !== 0 ? (
+                    <>
+                      <img src={gadget.product_image}
+                      alt={gadget.product_title}
+                      className="w-full h-48 object-cover mb-4 rounded-md" />
+                      <h3 className="text-[20px] font-bold mb-2">
+                        {gadget.product_title}
+                      </h3>
+                      <p className="text-[16px] mb-2">${gadget.price}</p>
+                      <button className="btn" onClick={(event) => }>Details</button>
+                    </>
+                  ) : ()}
+                </div>
+              })}
+            </div>
         </div>
       </div>
     </div>
