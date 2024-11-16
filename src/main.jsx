@@ -8,6 +8,7 @@ import {
 import Root from './components/Root/Root.jsx';
 import Home from './components/Home/Home.jsx';
 import Dashboard from './components/Dashboard/Dashboard.jsx';
+import Details from './components/Details/Details.jsx';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,17 @@ const router = createBrowserRouter([
         path: "dashboard",
         element: <Dashboard></Dashboard>
       },
+      {
+        path: "/details/:id",
+        element: <Details></Details>,
+        loader: async () => {
+          const response = await fetch("gadgetsData.json");
+          if(!response.ok) {
+            throw new Error("Failed to fetch gadgets data");
+          }
+          return response.json();
+        }
+      }
     ]
   },
 ]);

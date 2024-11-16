@@ -8,6 +8,7 @@ const Home = () => {
   const [gadgets, setGadgets] = useState([]);
   const navigate = useNavigate();
 
+ 
   useEffect(() => {
     setGadgets(gadgetsData);
   }, []);
@@ -31,8 +32,10 @@ const Home = () => {
 
   const handleDetailsClick = (event, productId) => {
     event.preventDefault();
-    navigate(`/details/${productId}`);
+    // navigate(`/details/${productId}`);
+    navigate(`/details/${productId}`, { state: { gadgetsData } });
   };
+  
 
   return (
     <div className="container mx-auto">
