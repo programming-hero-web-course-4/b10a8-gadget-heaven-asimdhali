@@ -11,12 +11,13 @@ import Dashboard from './components/Dashboard/Dashboard.jsx';
 import Details from './components/Details/Details.jsx';
 import Statistics from './components/Statistics/Statistics.jsx';
 import Contact from './components/Contact/Contact.jsx';
+import ErrorPage from './components/ErrorPage/ErrorPage.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root></Root>,
-    errorElement: <div>url sothik kore lekh mama 404</div>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: '/',

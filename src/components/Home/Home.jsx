@@ -39,7 +39,7 @@ const Home = () => {
 
   return (
     <div className="container mx-auto">
-      <div className="bg-[#9538E2] mb-[330px] text-white flex flex-col justify-center items-center text-center py-4 h-[580px] rounded-b-[32px] relative">
+      <div className="bg-[#9538E2] mb-[200px] text-white flex flex-col justify-center items-center text-center py-4 h-[580px] rounded-b-[32px] relative pt-[12rem]">
         <h2 className="text-[56px] font-bold my-4 px-5">
           Upgrade Your Tech Accessories with Gadget Heaven
         </h2>
@@ -52,7 +52,7 @@ const Home = () => {
           <img
             src={banner}
             alt="Banner"
-            className="rounded-3xl w-[600px] h-[400px]"
+            className="rounded-3xl w-[600px] h-[400px] mt-10"
           />
         </div>
       </div>

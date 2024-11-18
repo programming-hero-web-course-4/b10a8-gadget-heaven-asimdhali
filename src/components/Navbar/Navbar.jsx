@@ -10,9 +10,12 @@ const Navbar = () => {
 
   // Check the current route to highlight active links
   const isActive = (path) => location.pathname === path;
+  const isHomePage = location.pathname === "/";
 
   return (
-    <div className="navbar bg-white shadow-lg container mx-auto px-4 py-3">
+    <div className={`navbar shadow-lg container mx-auto px-4 py-3 mt-2  ${
+        isHomePage ? "bg-[#9538E2] text-white" : "bg-base-100"
+      }`}>
       {/* Navbar Start */}
       <div className="navbar-start">
         <div className="dropdown">
@@ -39,7 +42,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/"
-                className={isActive("/") ? "font-bold text-blue-600" : ""}
+                className={isActive("/") ? "font-bold " : ""}
               >
                 Home
               </Link>
@@ -67,12 +70,12 @@ const Navbar = () => {
 
       {/* Navbar Center */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 gap-4 text-gray-700">
+        <ul className="menu menu-horizontal px-1 gap-4 ">
           <li>
             <Link
               to="/"
-              className={`hover:text-blue-600 ${
-                isActive("/") ? "text-blue-600 font-bold" : ""
+              className={`hover:text-blue-600  ${
+                isActive("/") ? "underline font-bold text-white" : ""
               }`}
             >
               Home
@@ -82,7 +85,7 @@ const Navbar = () => {
             <Link
               to="/statistics"
               className={`hover:text-blue-600 ${
-                isActive("/statistics") ? "text-blue-600 font-bold" : ""
+                isActive("/statistics") ? "text-blue-600 underline font-bold" : ""
               }`}
             >
               Statistics
@@ -92,7 +95,7 @@ const Navbar = () => {
             <Link
               to="/dashboard"
               className={`hover:text-blue-600 ${
-                isActive("/dashboard") ? "text-blue-600 font-bold" : ""
+                isActive("/dashboard") ? "text-blue-600 underline font-bold" : ""
               }`}
             >
               Dashboard
@@ -102,7 +105,7 @@ const Navbar = () => {
             <Link
               to="/contact"
               className={`hover:text-blue-600 ${
-                isActive("/contact") ? "text-blue-600 font-bold" : ""
+                isActive("/contact") ? "text-blue-600 underline font-bold" : ""
               }`}
             >
               Contact
