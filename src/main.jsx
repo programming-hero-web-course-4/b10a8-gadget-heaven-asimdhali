@@ -9,6 +9,7 @@ import Root from './components/Root/Root.jsx';
 import Home from './components/Home/Home.jsx';
 import Dashboard from './components/Dashboard/Dashboard.jsx';
 import Details from './components/Details/Details.jsx';
+import Statistics from './components/Statistics/Statistics.jsx';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: <Dashboard></Dashboard>
+      },
+      {
+        path: "statistics",
+        element: <Statistics></Statistics>,
       },
       {
         path: "/details/:id",
