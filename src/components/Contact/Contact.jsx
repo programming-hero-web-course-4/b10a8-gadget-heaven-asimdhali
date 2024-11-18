@@ -7,7 +7,6 @@ export default function Contact() {
     message: "",
   });
 
-  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -16,10 +15,8 @@ export default function Contact() {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you can handle the form submission (e.g., send the data to an API)
     console.log("Form submitted", formData);
   };
   useEffect(() => {
@@ -32,7 +29,6 @@ export default function Contact() {
         <h1 className="text-4xl card-title  font-bold mb-6">Contact Us</h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Contact Information Section */}
           <div>
             <h2 className="text-2xl font-semibold mb-4">Get In Touch</h2>
             <p className="mb-4">
@@ -56,7 +52,6 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Contact Form Section */}
           <div>
             <h2 className="text-2xl font-semibold mb-4">Send Us a Message</h2>
             <form onSubmit={handleSubmit} className="space-y-4">

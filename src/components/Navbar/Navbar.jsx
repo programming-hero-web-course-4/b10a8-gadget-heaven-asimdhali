@@ -1,10 +1,19 @@
-import { Link } from "react-router-dom";
-import { FaCartArrowDown } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
+import { FaCartArrowDown, FaHeart } from "react-icons/fa";
+import { useContext } from "react";
+import { CartContext, WishlistContext } from "../Root/Root";
 
 const Navbar = () => {
+  const location = useLocation();
+  const { wCart } = useContext(WishlistContext);
+  const { cart } = useContext(CartContext);
+
+  // Check the current route to highlight active links
+  const isActive = (path) => location.pathname === path;
+
   return (
-    <div className="navbar bg-base-100 container mx-auto">
+    <div className="navbar bg-white shadow-lg container mx-auto px-4 py-3">
+      {/* Navbar Start */}
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -25,10 +34,15 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
           >
             <li>
-              <a>Home</a>
+              <Link
+                to="/"
+                className={isActive("/") ? "font-bold text-blue-600" : ""}
+              >
+                Home
+              </Link>
             </li>
             <li>
               <a>Parent</a>
@@ -46,34 +60,81 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <Link to="/" className="btn btn-ghost text-xl">Gadget Heaven</Link>
+        <Link to="/" className="btn btn-ghost text-xl font-extrabold">
+          Gadget Heaven
+        </Link>
       </div>
 
-
+      {/* Navbar Center */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
+        <ul className="menu menu-horizontal px-1 gap-4 text-gray-700">
           <li>
-            <Link to="/">Home</Link>
+            <Link
+              to="/"
+              className={`hover:text-blue-600 ${
+                isActive("/") ? "text-blue-600 font-bold" : ""
+              }`}
+            >
+              Home
+            </Link>
           </li>
           <li>
-            <Link to="/statistics">Statistics</Link>
+            <Link
+              to="/statistics"
+              className={`hover:text-blue-600 ${
+                isActive("/statistics") ? "text-blue-600 font-bold" : ""
+              }`}
+            >
+              Statistics
+            </Link>
           </li>
           <li>
-            <Link to="/dashboard">Dashboard</Link>
+            <Link
+              to="/dashboard"
+              className={`hover:text-blue-600 ${
+                isActive("/dashboard") ? "text-blue-600 font-bold" : ""
+              }`}
+            >
+              Dashboard
+            </Link>
           </li>
           <li>
-            <Link to="/contact">Contact</Link>
+            <Link
+              to="/contact"
+              className={`hover:text-blue-600 ${
+                isActive("/contact") ? "text-blue-600 font-bold" : ""
+              }`}
+            >
+              Contact
+            </Link>
           </li>
         </ul>
       </div>
 
-
+      {/* Navbar End */}
       <div className="navbar-end flex gap-4">
-        <Link>
-            <div><FaCartArrowDown /></div>
+        <Link
+          to="/dashboard"
+          className="btn btn-circle bg-gray-100 hover:bg-gray-200 relative"
+        >
+          <FaCartArrowDown className="text-xl text-gray-700" />
+          {cart.length > 0 && (
+            <span className="badge badge-primary absolute -top-2 -right-2">
+              {cart.length}
+            </span>
+          )}
         </Link>
-        <Link>
-            <div><FaHeart /></div>
+
+        <Link
+          to="/dashboard"
+          className="btn btn-circle bg-gray-100 hover:bg-gray-200 relative"
+        >
+          <FaHeart className="text-xl text-gray-700" />
+          {wCart.length > 0 && (
+            <span className="badge badge-secondary absolute -top-2 -right-2">
+              {wCart.length}
+            </span>
+          )}
         </Link>
       </div>
     </div>

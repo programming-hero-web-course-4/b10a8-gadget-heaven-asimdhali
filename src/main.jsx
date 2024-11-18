@@ -10,6 +10,7 @@ import Home from './components/Home/Home.jsx';
 import Dashboard from './components/Dashboard/Dashboard.jsx';
 import Details from './components/Details/Details.jsx';
 import Statistics from './components/Statistics/Statistics.jsx';
+import Contact from './components/Contact/Contact.jsx';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "statistics",
         element: <Statistics></Statistics>,
+      },
+      {
+        path: "contact",
+        element: <Contact></Contact>,
       },
       {
         path: "/details/:id",

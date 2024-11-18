@@ -4,33 +4,29 @@ import toast, { Toaster } from "react-hot-toast";
 import { FaCartArrowDown, FaHeart } from "react-icons/fa";
 import { CartContext, WishlistContext } from "../Root/Root";
 
-// Notification function
 const notify = (message) => {
   toast(message);
 };
 
 const Details = () => {
   const { id } = useParams();
-  
-  // If you're using useLoaderData, gadgetsData should be fetched from loader
-  const gadgetsData = useLoaderData(); // assuming the data is being loaded via this hook
-
-  // Ensure gadgetsData is available and find the specific gadget
-  const gadget = gadgetsData?.find(
+  const gadgetsData = useLoaderData();
+  const gadget = gadgetsData.find(
     (gadget) => gadget.product_id.toString() === id
   );
-
-  // State to handle rating and wishlist actions
   const [selectedRating, setSelectedRating] = useState(5);
-  const { addToCart } = useContext(CartContext);
-  const { addToWishList, wCart } = useContext(WishlistContext);
+  const { addToCart } = useContext(CartContext); // Use CartContext
+  const { addToWhishList, wCart } = useContext(WishlistContext); // Use WishlistContext
+
   const [wishlistAdded, setWishlistAdded] = useState(false);
 
-  const handleRatingChange = (rating) => setSelectedRating(rating);
+  const handleRatingChange = (rating) => {
+    setSelectedRating(rating);
+  };
 
   const handleAddToWishlist = (gadget) => {
     if (!wCart.some((item) => item.product_id === gadget.product_id)) {
-      addToWishList(gadget);
+      addToWhishList(gadget);
       notify("Added to wishlist");
       setWishlistAdded(true);
     } else {
@@ -38,19 +34,8 @@ const Details = () => {
     }
   };
 
-  // If no gadget found or gadgetsData is missing, display an error
   if (!gadget) {
-    return (
-      <div className="text-center mt-10">
-        <p>Gadget not found</p>
-        <button
-          className="btn btn-primary mt-4"
-          onClick={() => window.history.back()}
-        >
-          Go Back
-        </button>
-      </div>
-    );
+    return <div>Gadget not found</div>;
   }
 
   return (
@@ -82,7 +67,7 @@ const Details = () => {
           >
             {gadget.availability ? "In stock" : "Not available"}
           </div>
-          
+
           {/* Product Specifications */}
           <div className="mt-4">
             <h1>Specification:</h1>
@@ -97,7 +82,6 @@ const Details = () => {
             </ol>
           </div>
 
-          {/* Rating Section */}
           <div className="mt-4">
             <h2>Rating ⭐ </h2>
             <div className="flex items-center">
@@ -119,7 +103,6 @@ const Details = () => {
             </div>
           </div>
 
-          {/* Buttons Section */}
           <div className="flex flex-row items-center justify-start mt-4">
             <button
               className={`${
