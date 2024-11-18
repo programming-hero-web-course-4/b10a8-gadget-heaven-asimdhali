@@ -5,12 +5,12 @@ Welcome to **Gadget Heaven**, an e-commerce platform showcasing the latest and m
 ---
 
 ## 🔗 Live Website Link  
-[https://673b92c1ccf5d100ba6bb020--dapper-babka-b4b108.netlify.app/](#)  
+[Live Demo](https://673b92c1ccf5d100ba6bb020--dapper-babka-b4b108.netlify.app/)  
 
 ---
 
 ## 📄 Requirement Document  
-[https://github.com/ProgrammingHero1/B10-A8-gadget-heaven](#)
+[Requirement Document](https://github.com/ProgrammingHero1/B10-A8-gadget-heaven)
 
 ---
 
