@@ -8,21 +8,25 @@ const Navbar = () => {
   const { wCart } = useContext(WishlistContext);
   const { cart } = useContext(CartContext);
 
-  // Check the current route to highlight active links
   const isActive = (path) => location.pathname === path;
   const isHomePage = location.pathname === "/";
 
   return (
-    <div className={`navbar shadow-lg container mx-auto px-4 py-3 mt-2  ${
+    <div
+      className={`navbar shadow-lg container mx-auto px-4 py-3 mt-2 ${
         isHomePage ? "bg-[#9538E2] text-white" : "bg-base-100"
-      }`}>
-      {/* Navbar Start */}
+      }`}
+    >
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+          <button
+            tabIndex={0}
+            className="btn btn-ghost lg:hidden"
+            aria-label="Open menu"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
+              className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -34,7 +38,7 @@ const Navbar = () => {
                 d="M4 6h16M4 12h8m-8 6h16"
               />
             </svg>
-          </div>
+          </button>
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
@@ -42,7 +46,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/"
-                className={isActive("/") ? "font-bold " : ""}
+                className={isActive("/") ? "font-bold text-primary" : ""}
               >
                 Home
               </Link>
@@ -63,62 +67,45 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <Link to="/" className="btn btn-ghost text-xl font-extrabold">
+        <Link
+          to="/"
+          className={`text-xl font-extrabold tracking-wide lg:text-2xl ${
+            isHomePage ? "text-white" : "text-[#9538E2]"
+          }`}
+        >
           Gadget Heaven
         </Link>
       </div>
 
-      {/* Navbar Center */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 gap-4 ">
-          <li>
-            <Link
-              to="/"
-              className={`hover:text-blue-600  ${
-                isActive("/") ? "underline font-bold text-white" : ""
-              }`}
-            >
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/statistics"
-              className={`hover:text-blue-600 ${
-                isActive("/statistics") ? "text-blue-600 underline font-bold" : ""
-              }`}
-            >
-              Statistics
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/dashboard"
-              className={`hover:text-blue-600 ${
-                isActive("/dashboard") ? "text-blue-600 underline font-bold" : ""
-              }`}
-            >
-              Dashboard
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/contact"
-              className={`hover:text-blue-600 ${
-                isActive("/contact") ? "text-blue-600 underline font-bold" : ""
-              }`}
-            >
-              Contact
-            </Link>
-          </li>
+        <ul className="menu menu-horizontal gap-6">
+          {[
+            { label: "Home", path: "/" },
+            { label: "Statistics", path: "/statistics" },
+            { label: "Dashboard", path: "/dashboard" },
+            { label: "Contact", path: "/contact" },
+          ].map(({ label, path }) => (
+            <li key={path}>
+              <Link
+                to={path}
+                className={`${
+                  isActive(path)
+                    ? "bg-white text-[#9538E2] font-bold px-4 py-2 rounded-lg shadow"
+                    : "hover:text-[#9538E2] transition"
+                }`}
+              >
+                {label}
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
 
-      {/* Navbar End */}
-      <div className="navbar-end flex gap-4">
+      <div className="navbar-end flex items-center gap-4">
         <Link
           to="/dashboard"
           className="btn btn-circle bg-gray-100 hover:bg-gray-200 relative"
+          aria-label="Cart"
         >
           <FaCartArrowDown className="text-xl text-gray-700" />
           {cart.length > 0 && (
@@ -131,6 +118,7 @@ const Navbar = () => {
         <Link
           to="/dashboard"
           className="btn btn-circle bg-gray-100 hover:bg-gray-200 relative"
+          aria-label="Wishlist"
         >
           <FaHeart className="text-xl text-gray-700" />
           {wCart.length > 0 && (

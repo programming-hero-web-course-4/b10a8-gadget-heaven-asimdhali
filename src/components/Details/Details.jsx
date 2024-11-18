@@ -1,11 +1,23 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useParams, useLoaderData } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { FaCartArrowDown, FaHeart } from "react-icons/fa";
 import { CartContext, WishlistContext } from "../Root/Root";
+import { GoVerified } from "react-icons/go";
 
 const notify = (message) => {
-  toast(message);
+  toast.success(message, {
+    style: {
+      background: "#28a745",
+      color: "white",
+      borderRadius: "8px",
+      padding: "12px 20px",
+      fontWeight: "bold",
+      fontSize: "16px",
+    },
+    icon: <GoVerified className="text-white text-xl" />,
+    position: "top-center",
+  });
 };
 
 const Details = () => {
@@ -46,13 +58,12 @@ const Details = () => {
         level. From smart devices to the coolest accessories, we have it all!
       </p>
 
-      {/* Card Section for Product Details */}
-      <div className="card card-side bg-base-100 shadow-xl flex flex-col md:flex-row w-full max-w-[1000px]">
+      <div className="card card-side bg-base-100 shadow-xl flex flex-col md:flex-row w-full max-w-[1000px] p-5">
         <figure className="flex-grow h-full">
           <img
             src={gadget.product_image}
             alt={gadget.product_title}
-            className="object-cover h-[567px] rounded-lg"
+            className="object-contain h-[400px] rounded-lg"
           />
         </figure>
         <div className="card-body text-black p-5">
@@ -68,7 +79,6 @@ const Details = () => {
             {gadget.availability ? "In stock" : "Not available"}
           </div>
 
-          {/* Product Specifications */}
           <div className="mt-4">
             <h1>Specification:</h1>
             <ol
@@ -110,7 +120,7 @@ const Details = () => {
               } btn mr-2 bg-[#9538E2] w-[193px] text-white rounded-xl`}
               onClick={() => {
                 addToCart(gadget);
-                notify("Added to cart");
+                notify("Successfully added to cart!"); // Use the customized toast
               }}
             >
               Add to cart <FaCartArrowDown className="ml-2 w-[24px]" />

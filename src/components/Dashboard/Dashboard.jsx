@@ -23,40 +23,47 @@ const Dashboard = () => {
   }, [cart]);
 
   const notify = (message) => {
-    toast(message);
+    toast(message, {
+      position: "top-center",
+      style: {
+        background: "#28a745",
+        color: "white",
+        borderRadius: "8px",
+        padding: "10px 20px",
+        fontWeight: "bold",
+        fontSize: "16px",
+      },
+    });
   };
 
   const purchageProducts = () => {
-    notify("Products purchased successfully");
+    notify("✅ Products purchased successfully!");
     setTotal(0);
     setCart([]);
   };
 
   const removeFromWishlist = (index) => {
-    notify("Item removed from wishlist");
+    notify("✅ Item removed from wishlist");
     setWCart((prevWCart) => prevWCart.filter((_, i) => i !== index));
   };
 
   const sortByPrice = () => {
-    notify("Sorting by price");
-    setCart((prevCart) =>
-      [...prevCart].sort((a, b) => b.price - a.price)
-    );
+    notify("✅ Sorting by price");
+    setCart((prevCart) => [...prevCart].sort((a, b) => b.price - a.price));
   };
 
   const removeFromCart = (index) => {
-    notify("Item removed from cart");
+    notify("✅ Item removed from cart");
     setCart((prevCart) => prevCart.filter((_, i) => i !== index));
   };
 
   const addToCart = (item) => {
-    notify("Item added to cart");
+    notify("✅ Item added to cart");
     setCart((prevCart) => [...prevCart, item]);
   };
 
   return (
     <>
-      {/* Purchase Modal */}
       <dialog id="purchase_modal" className="modal">
         <div className="modal-box card">
           <div className="card-body flex-col justify-center items-center">
@@ -72,25 +79,25 @@ const Dashboard = () => {
         </form>
       </dialog>
 
-      {/* Dashboard Header */}
       <div className="p-5 text-white bg-[#9538E2] flex flex-col pt-[50px] pb-[80px] items-center justify-center">
         <h2 className="text-[32px] font-bold">Dashboard</h2>
         <p className="max-w-[796px] text-center text-[16px]">
           Explore the latest gadgets that will take your experience to the next
           level. From smart devices to the coolest accessories, we have it all!
         </p>
-        <div>
+        <div className="mt-5">
           <button
             className={`btn mr-2 w-[170px] rounded-2xl ${
-              wishlist ? "" : "bg-[#9538E2]"
+              !wishlist ? "bg-white text-black" : "bg-[#9538E2] text-white"
             }`}
             onClick={() => setWishlist(false)}
           >
             Cart
           </button>
+
           <button
             className={`btn w-[170px] rounded-2xl ${
-              wishlist ? "bg-[#9538E2] text-white" : ""
+              wishlist ? "bg-white text-black" : "bg-[#9538E2] text-white"
             }`}
             onClick={() => setWishlist(true)}
           >
@@ -99,7 +106,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Cart Section */}
       <div
         className={`${
           wishlist ? "hidden" : "flex flex-col items-center my-4 justify-center"
@@ -107,7 +113,7 @@ const Dashboard = () => {
       >
         <div className="container mx-auto my-2">
           <div className="flex flex-row justify-between items-center">
-            <h1>Cart</h1>
+            <h1></h1>
             <div className="flex flex-row items-center">
               <h2>Total Cost: ${total}</h2>
               <button
@@ -168,7 +174,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Wishlist Section */}
       <div
         className={`${
           wishlist ? "flex flex-col items-center" : "hidden"
